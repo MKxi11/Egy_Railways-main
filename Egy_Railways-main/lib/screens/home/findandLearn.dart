@@ -1,4 +1,4 @@
-import 'package:egyrailwayes/screens/home/find.dart';
+import 'package:egyrailwayes/screens/pages/find.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

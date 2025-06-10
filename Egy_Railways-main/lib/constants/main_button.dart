@@ -16,13 +16,13 @@ class mainbutton extends StatelessWidget {
     return Center(
       child: Container(
         width: 330.w,
-        height: 50.h,
+        height: 45.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(5.r),
           gradient: LinearGradient(
             colors: [
-              Colors.lightBlueAccent,
-              Color(0xff0057FF),
+              const Color.fromARGB(255, 0, 107, 156),
+              Color.fromARGB(255, 0, 51, 152),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -31,7 +31,7 @@ class mainbutton extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPressed,
           child: Text(text1,
-              style: TextStyle(color: AppColor.colorwhite, fontSize: 22.sp)),
+              style: TextStyle(color: AppColor.colorwhite, fontSize: 20 .sp)),
         ),
       ),
     );

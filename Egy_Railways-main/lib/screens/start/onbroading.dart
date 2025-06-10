@@ -42,6 +42,11 @@ class _PackageState extends State<Onbroading> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedIntroduction(
+        onSkip: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Language(),
+          ));
+        },
         doneText: "Next",
         footerBgColor: Color(0xff0057FF),
         slides: pages,

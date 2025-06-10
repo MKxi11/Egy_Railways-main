@@ -1,4 +1,5 @@
 import 'package:egyrailwayes/constants/app_color.dart';
+import 'package:egyrailwayes/constants/bar.dart';
 import 'package:egyrailwayes/screens/pages/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,157 +22,40 @@ class _MyticketState extends State<Myticket>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70.h, // Set the height of the AppBar
-        leading: InkWell(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Bottombar()));
-          },
-          child: Image.asset(
-            'images/logo.png',
-            height: 40.h, // Set the height of the logo
-            width: 40.w, // Set the width of the logo
-          ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: Bar(),
         ),
-        backgroundColor: Colors.white
-            .withOpacity(0.8), // Set the AppBar background color with opacity
-        title: InkWell(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Bottombar()));
-          },
-          child: Text(
-            'Egy Railways',
-            style: TextStyle(
-              foreground: Paint()
-                ..shader = LinearGradient(
-                  colors: [
-                    Colors.cyan,
-                    const Color.fromARGB(255, 14, 70, 117),
-                  ],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                ).createShader(Rect.fromLTWH(0, 0, 400, 70)),
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10.w),
+              child: TabBar(
+                controller: tabController,
+                labelColor: const Color.fromARGB(255, 0, 0, 0),
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: const Color.fromARGB(255, 0, 0, 0),
+                tabs: [
+                Tab(text: 'Upcoming'),
+                Tab(text: 'Past'),
+                Tab(text: 'Cancelled'),
+              ],
             ),
           ),
-        ),
-
-        actions: [
-          PopupMenuButton(
-            color: const Color.fromARGB(
-                45, 0, 36, 156), // Set the background color of the menu
-            shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(10.r), // Set the border radius
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                Center(child: Text('Upcoming Tickets')),
+                Center(child: Text('Past Tickets')),
+                Center(child: Text('Cancelled Tickets')),
+              ],
             ),
-            iconSize: 30.sp, // Set the size of the menu icon
-            padding: EdgeInsets.only(right: 10.w),
-            icon: Icon(Icons.menu, color: AppColor.colorblack, size: 20.sp),
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
-                value: 'settings',
-                child: Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'profile',
-                child: Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'logout',
-                child: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ],
-            onSelected: (value) {
-              // Handle menu item selection
-              if (value == 'settings') {
-                // Navigate to settings page
-              } else if (value == 'profile') {
-                // Navigate to profile page
-              } else if (value == 'logout') {
-                // Handle logout
-              }
-            },
-          ),
-        ], // Add settings
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          ListView(
-            children: [
-              Row(
-                children: [
-                  SizedBox(width: 30.w),
-                  Container(
-                    margin: EdgeInsets.only(top: 20.h),
-                    width: 140.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      // color: Color(0xff0057FF),
-                      borderRadius: BorderRadius.circular(10.r),
-                      gradient: LinearGradient(
-                        colors: [Colors.lightBlueAccent, Color(0xff0057FF)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Tickets",
-                        style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 40.w),
-                  Container(
-                    margin: EdgeInsets.only(top: 20.h),
-                    width: 140.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      // color: Color(0xff0057FF),
-                      borderRadius: BorderRadius.circular(10.r),
-                      gradient: LinearGradient(
-                        colors: [Colors.lightBlueAccent, Color(0xff0057FF)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        "History",
-                        style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ),
         ],
       ),
     );
   }
 }
+
+// This code defines a Myticket widget that displays a tabbed interface for viewin

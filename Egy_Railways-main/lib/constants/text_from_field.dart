@@ -7,6 +7,8 @@ class textfromfield extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final String? prefixText;
+  final TextStyle? prefixStyle;
   final String? Function(String?)? validator;
   final TextEditingController controller;
 
@@ -18,6 +20,8 @@ class textfromfield extends StatelessWidget {
     this.obscureText,
     this.validator,
     required this.controller,
+    this.prefixText,
+    this.prefixStyle,
   });
 
   @override
@@ -35,6 +39,8 @@ class textfromfield extends StatelessWidget {
           cursorColor: AppColor.colorblue,
           cursorHeight: 20.0.h,
           decoration: InputDecoration(
+              prefixText: prefixText,
+              prefixStyle: prefixStyle,
               contentPadding: EdgeInsets.only(left: 20.w),
               hintText: hinttext,
               prefixIcon: prefixIcon,

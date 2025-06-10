@@ -16,12 +16,14 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         backgroundColor: Color(0xff0057FF),
         centerTitle: true,
-        title: Text("Account",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            )),
+        title: Text(
+          "Account",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: ListView(
         children: [
@@ -77,120 +79,10 @@ class _AccountState extends State<Account> {
               leading: Icon(
                 Icons.person_outline,
                 color: Colors.black,
-                size: 30.sp,
+                size: 25.sp,
               ),
               title: Text(
-                "Personal Info",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.group_outlined,
-                color: Colors.black,
-                size: 30.sp,
-              ),
-              title: Text(
-                "Passengers List",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.payment_outlined,
-                color: Colors.black,
-                size: 30.sp,
-              ),
-              title: Text(
-                "Payment Method",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.notifications_outlined,
-                color: Colors.black,
-                size: 30.sp,
-              ),
-              title: Text(
-                "Notification",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.security_outlined,
-                color: Colors.black,
-                size: 30.sp,
-              ),
-              title: Text(
-                "Security",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.language_outlined,
-                color: Colors.black,
-                size: 30.sp,
-              ),
-              title: Text(
-                "Language",
+                "My Profile",
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: Colors.black,
@@ -204,30 +96,16 @@ class _AccountState extends State<Account> {
             ),
           ),
           SizedBox(height: 20.h),
-          Row(
-            children: [
-              SizedBox(width: 10.w),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  "About",
-                  style: TextStyle(color: Colors.grey[600], fontSize: 17.sp),
-                ),
-              ),
-              Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
-            ],
-          ),
-          SizedBox(height: 10.h),
           InkWell(
             onTap: () {},
             child: ListTile(
               leading: Icon(
-                Icons.description_outlined,
+                Icons.edit_outlined,
                 color: Colors.black,
-                size: 30.sp,
+                size: 25.sp,
               ),
               title: Text(
-                "Help Center",
+                "Edit Profile",
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: Colors.black,
@@ -240,16 +118,17 @@ class _AccountState extends State<Account> {
               ),
             ),
           ),
+          SizedBox(height: 20.h),
           InkWell(
             onTap: () {},
             child: ListTile(
               leading: Icon(
                 Icons.lock_outline,
                 color: Colors.black,
-                size: 30.sp,
+                size: 25.sp,
               ),
               title: Text(
-                "Privacy Policy",
+                "Update Password",
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: Colors.black,
@@ -262,16 +141,17 @@ class _AccountState extends State<Account> {
               ),
             ),
           ),
+          SizedBox(height: 20.h),
           InkWell(
             onTap: () {},
             child: ListTile(
               leading: Icon(
-                Icons.info_outline,
+                Icons.book_online_outlined,
                 color: Colors.black,
-                size: 30.sp,
+                size: 25.sp,
               ),
               title: Text(
-                "About Railify",
+                "My Booking",
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: Colors.black,
@@ -284,6 +164,53 @@ class _AccountState extends State<Account> {
               ),
             ),
           ),
+          SizedBox(height: 20.h),
+          InkWell(
+            onTap: () {},
+            child: ListTile(
+              leading: Icon(
+                Icons.train_outlined,
+                color: Colors.black,
+                size: 25.sp,
+              ),
+              title: Text(
+                "Find Train",
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+              ),
+            ),
+          ),
+          SizedBox(height: 20.h),
+          InkWell(
+            onTap: () {},
+            child: ListTile(
+              leading: Icon(
+                Icons.help_outline,
+                color: Colors.black,
+                size: 25.sp,
+              ),
+              title: Text(
+                "Help & Support",
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+              ),
+            ),
+          ),
+          SizedBox(height: 20.h),
           InkWell(
             onTap: () async {
               await Supabase.instance.client.auth.signOut();
@@ -298,7 +225,7 @@ class _AccountState extends State<Account> {
                 icon: Icon(
                   Icons.logout_outlined,
                   color: Colors.red,
-                  size: 30.sp,
+                  size: 25.sp,
                 ),
               ),
               title: Text(

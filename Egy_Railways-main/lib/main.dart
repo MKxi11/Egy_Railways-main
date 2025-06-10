@@ -1,11 +1,11 @@
-import 'package:egyrailwayes/screens/home/find.dart';
-import 'package:egyrailwayes/screens/pages/bottom_bar.dart';
+import 'package:egyrailwayes/screens/home/findandLearn.dart';
+import 'package:egyrailwayes/screens/pages/find.dart';
 import 'package:egyrailwayes/core/config/app_config.dart';
-import 'package:egyrailwayes/screens/pages/account.dart';
-import 'package:egyrailwayes/screens/home/homepage.dart';
-import 'package:egyrailwayes/screens/home/homepage2.dart';
-import 'package:egyrailwayes/screens/pages/myticket.dart';
+import 'package:egyrailwayes/screens/start/language.dart';
+import 'package:egyrailwayes/screens/start/login2.dart';
+import 'package:egyrailwayes/screens/start/signup1.dart';
 import 'package:egyrailwayes/screens/start/splash.dart';
+import 'package:egyrailwayes/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,9 +25,11 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+static SupabaseClient get supabase => Supabase.instance.client;
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Find(),
+          home:Signup1(),
         );
       },
     );

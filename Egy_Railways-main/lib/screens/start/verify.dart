@@ -1,6 +1,6 @@
 import 'package:egyrailwayes/constants/app_color.dart';
 import 'package:egyrailwayes/constants/main_button.dart';
-import 'package:egyrailwayes/screens/start/signup2.dart';
+import 'package:egyrailwayes/screens/pages/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -80,7 +80,7 @@ class _VerifyState extends State<Verify> {
                   text1: "Let's verify",
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => signup2()));
+                        MaterialPageRoute(builder: (context) => Bottombar()));
                   }),
             ],
           ),

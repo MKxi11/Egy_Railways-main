@@ -1,5 +1,4 @@
 import 'package:egyrailwayes/constants/app_color.dart';
-import 'package:egyrailwayes/screens/pages/bottom_bar.dart';
 import 'package:egyrailwayes/constants/sigup_with.dart';
 import 'package:egyrailwayes/constants/text_from_field.dart';
 import 'package:egyrailwayes/constants/text_intro.dart';
@@ -7,11 +6,13 @@ import 'package:egyrailwayes/constants/main_button.dart';
 import 'package:egyrailwayes/main.dart';
 import 'package:egyrailwayes/screens/start/login2.dart';
 import 'package:egyrailwayes/screens/start/verify.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:validators/validators.dart';
 
 class Signup1 extends StatefulWidget {
   const Signup1({super.key});
@@ -26,19 +27,36 @@ class _LoginState extends State<Signup1> {
   GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  static TextEditingController phoneController = TextEditingController();
   String? userid;
   @override
   void initState() {
     super.initState();
-    supabase.auth.onAuthStateChange.listen((data) {
-      setState(() {
-        userid = data.session?.user.id;
+    _setupAuthListener();
+  }
+
+  Future<void> _setupAuthListener() async {
+    try {
+      supabase.auth.onAuthStateChange.listen((data) {
+        setState(() {
+          userid = data.session?.user.id;
+        });
       });
-    });
+    } catch (e) {
+      _showErrorSnackBar("Error setting up auth listener: ${e.toString()}");
+    }
   }
 
   Future<void> Signup() async {
-    if (!formKey2.currentState!.validate()) return;
+    if (!formKey2.currentState!.validate()) {
+      _showErrorSnackBar("Please fill all required fields.");
+      return;
+    }
+
+    if (passwordController.text.trim().length < 6) {
+      _showErrorSnackBar("Password must be at least 6 characters long.");
+      return;
+    }
 
     try {
       final response = await Supabase.instance.client.auth.signUp(
@@ -48,15 +66,39 @@ class _LoginState extends State<Signup1> {
 
       if (response.user != null) {
         print("Signup successful");
+        // Save email to reservations table
+        await _saveEmailToReservations(emailController.text.trim());
+
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => Verify()),
         );
       } else {
-        print("Signup failed: No user returned");
+        _showErrorSnackBar("Signup failed: No user returned");
       }
     } catch (e) {
-      print("Signup error: ${e.toString()}");
+      _showErrorSnackBar("Signup error: ${e.toString()}");
     }
+  }
+
+  Future<void> _saveEmailToReservations(String email) async {
+    try {
+      await Supabase.instance.client
+          .from('reservations')
+          .insert({'email': email});
+      print("Email saved to email_reservations table");
+    } catch (e) {
+      _showErrorSnackBar(
+          "Error saving email to email_reservations: ${e.toString()}");
+    }
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override
@@ -96,8 +138,11 @@ class _LoginState extends State<Signup1> {
                 textfromfield(
                   controller: emailController,
                   validator: (value1) {
-                    if (value1 == "") {
+                    if (value1 == null || value1.isEmpty) {
                       return "Please enter your email";
+                    }
+                    if (!isEmail(value1)) {
+                      return "Please enter a valid email";
                     }
                     return null;
                   },
@@ -145,7 +190,7 @@ class _LoginState extends State<Signup1> {
                       controlAffinity: ListTileControlAffinity.leading,
                       title: RichText(
                           text: TextSpan(
-                              text: "I agree to eayrailwayes ",
+                              text: "I agree to Railify",
                               style: TextStyle(
                                   color: AppColor.colorblack, fontSize: 15.sp),
                               children: [
@@ -163,20 +208,6 @@ class _LoginState extends State<Signup1> {
                         });
                       }),
                 ),
-                // Center(
-                //   child: Container(
-                //     child: MaterialButton(
-                //       onPressed: () {
-                //         Navigator.of(context).push(
-                //             MaterialPageRoute(builder: (context) => ResetPassword()));
-                //       },
-                //       child: Text(
-                //         "Forgot Password?",
-                //         style: TextStyle(color: AppColor.colorblack, fontSize: 16),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: 15.h,
                 ),
@@ -240,62 +271,50 @@ class _LoginState extends State<Signup1> {
                   children: [
                     signupwith(
                       onTap: () async {
-                        ///
-                        /// Web Client ID that you registered with Google Cloud.
-                        const webClientId =
-                            '707965051749-ammkgu1u361t9gfsdf8pdv9jn23t3t2q.apps.googleusercontent.com';
+                        try {
+                          const webClientId =
+                              '707965051749-ammkgu1u361t9gfsdf8pdv9jn23t3t2q.apps.googleusercontent.com';
+                          const iosClientId =
+                              'my-ios.apps.googleusercontent.com';
 
-                        ///
-                        /// iOS Client ID that you registered with Google Cloud.
-                        const iosClientId = 'my-ios.apps.googleusercontent.com';
-
-                        // Google sign in on Android will work without providing the Android
-                        // Client ID registered on Google Cloud.
-
-                        final GoogleSignIn googleSignIn = GoogleSignIn(
-                          // clientId: iosClientId,
-                          serverClientId: webClientId,
-                        );
-                        final googleUser = await googleSignIn.signIn();
-                        final googleAuth = await googleUser!.authentication;
-                        final accessToken = googleAuth.accessToken;
-                        final idToken = googleAuth.idToken;
-
-                        if (accessToken == null) {
-                          throw 'No Access Token found.';
-                        }
-                        if (idToken == null) {
-                          throw 'No ID Token found.';
-                        }
-
-                        final response = await supabase.auth.signInWithIdToken(
-                          provider: OAuthProvider.google,
-                          idToken: idToken,
-                          accessToken: accessToken,
-                        );
-
-                        if (response.session != null) {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => Bottombar()));
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Authentication Failed"),
-                                content:
-                                    Text("Unable to authenticate with Google."),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child: Text("OK"),
-                                  ),
-                                ],
-                              );
-                            },
+                          final GoogleSignIn googleSignIn = GoogleSignIn(
+                            serverClientId: webClientId,
                           );
+                          final googleUser = await googleSignIn.signIn();
+
+                          if (googleUser == null) {
+                            throw 'Google sign-in was canceled.';
+                          }
+
+                          final googleAuth = await googleUser.authentication;
+                          final accessToken = googleAuth.accessToken;
+                          final idToken = googleAuth.idToken;
+
+                          if (accessToken == null) {
+                            throw 'No Access Token found.';
+                          }
+                          if (idToken == null) {
+                            throw 'No ID Token found.';
+                          }
+
+                          final response =
+                              await supabase.auth.signInWithIdToken(
+                            provider: OAuthProvider.google,
+                            idToken: idToken,
+                            accessToken: accessToken,
+                          );
+
+                          if (response.session != null) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => Verify()));
+                          } else {
+                            _showErrorSnackBar(
+                                "Unable to authenticate with Google.");
+                          }
+                        } catch (e) {
+                          _showErrorSnackBar(
+                              "Google sign-in failed: ${e.toString()}");
                         }
                       },
                       image1: "images/google.png",
@@ -303,13 +322,6 @@ class _LoginState extends State<Signup1> {
                     SizedBox(
                       width: 20.w,
                     ),
-                    // signupwith(
-                    //   onTap: () {},
-                    //   image1: "images/apple.png",
-                    // ),
-                    // SizedBox(
-                    //   width: 20.w,
-                    // ),
                     signupwith(
                       onTap: () {},
                       image1: "images/facebook11111.png",
@@ -326,34 +338,10 @@ class _LoginState extends State<Signup1> {
                   height: 25.h,
                 ),
                 mainbutton(
-                  text1: "Sign Up",
-                  onPressed: () {
-                    if (!value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              "You must agree to the Terms & Privacy Policy."),
-                        ),
-                      );
-                      return;
-                    }
-                    if (!formKey2.currentState!.validate()) {
-                      return;
-                    }
-                    Signup();
-                  },
-                ),
-                //vaildator
-                // if (formKey2.currentState!.validate()) {
-                //   print("valid");
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (context) => Verify()));
-                // } else {
-                //   print("not valid");
-                // }
-                // Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (context) => Verify()));
-
+                    text1: "Sign Up",
+                    onPressed: () {
+                      Signup();
+                    }),
                 SizedBox(
                   height: 20.h,
                 )
@@ -364,8 +352,4 @@ class _LoginState extends State<Signup1> {
       ),
     );
   }
-}
-
-extension on AuthResponse {
-  get error => null;
 }

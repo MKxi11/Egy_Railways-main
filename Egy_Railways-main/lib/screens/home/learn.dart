@@ -12,7 +12,7 @@ class Buttons extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 200.h,
+          height: 230.h,
           padding: EdgeInsets.all(20.0.r),
           margin: EdgeInsets.only(
             left: 20.w,
@@ -91,7 +91,7 @@ class Buttons extends StatelessWidget {
           height: 20.h,
         ),
         Container(
-          height: 200.h,
+          height: 230.h,
           padding: EdgeInsets.all(20.0.r),
           margin: EdgeInsets.only(
             left: 20.w,
@@ -170,7 +170,7 @@ class Buttons extends StatelessWidget {
           height: 20.h,
         ),
         Container(
-          height: 200.h,
+          height: 230.h,
           padding: EdgeInsets.all(20.0.r),
           margin: EdgeInsets.only(
             left: 20.w,
@@ -246,7 +246,7 @@ class Buttons extends StatelessWidget {
           ),
         ),
         Container(
-          height: 200.h,
+          height: 230.h,
           padding: EdgeInsets.all(20.0.r),
           margin: EdgeInsets.only(
             left: 20.w,
